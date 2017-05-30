@@ -1,20 +1,15 @@
 package LiveChat;
 import java.util.*;
+
+import LiveChat.Message.Message;
 import User.*;
 
 /**
- * Implementation of LiveChat, each instance represents a liveChat session
- * This is also the implementation of Mediator
+ * Implementation of LiveChat factory
  */
-public class LiveChat extends LiveChatPage {
-    public String sessionID;
+public abstract class LiveChat extends LiveChatPage {
     public String ChatName;
-    public ArrayList<User> Users;
-
-    public LiveChat(String ChatName,String sessionID ){
-        this.ChatName = ChatName;
-        this.sessionID = sessionID;
-    }
+    public ArrayList<User> Users = new ArrayList<User>();
 
     public void postMessage(String senderName,Message message) {
         for (User user : Users) {
@@ -24,38 +19,20 @@ public class LiveChat extends LiveChatPage {
         }
     }
 
-    public ArrayList<User> getUsers(){
-        return this.Users;
+    public void addUser(User User){
+        Users.add(User);
     }
 
-    public LiveChat createNewChat(String chatName, String sessionID, User user){
-        LiveChat chat = new LiveChat(chatName,sessionID);
-        chat.addUser(user);
-        return chat;
+    public String getChatName(){
+        return ChatName;
     }
 
-    public ArrayList<LiveChat> listChats(){
-        ArrayList<LiveChat> chatList = new ArrayList<LiveChat>();
-        return chatList;
+    public void PrintChat(){
+        System.out.println("Current Chat: " + getChatName());
+        for (User u: Users) {
+            System.out.println("Current User: " + u.getName());
+        }
     }
 
-    public LiveChat getLiveChat(String ChatName){
-        LiveChat chat = new LiveChat(ChatName,sessionID);
-        return chat;
-    }
-
-    public LiveChat joinLiveChat(User user){
-        LiveChat chat = getLiveChat(sessionID);
-        chat.addUser(user);
-        return chat;
-    }
-
-    public void addUser(User user){
-        Users.add(user);
-    }
-
-    public void leaveSession(User user){
-        Users.remove(user);
-    }
-
+    public abstract void connectUser();
 }

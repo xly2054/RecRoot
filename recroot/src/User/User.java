@@ -1,6 +1,7 @@
 package User;
 import Database.*;
 import LiveChat.*;
+import LiveChat.Message.Message;
 
 /**
  * User class, basic user type. All other different types of user are subclass of this
@@ -39,7 +40,8 @@ public abstract class User {
     }
 
     public Boolean isExisted(){
-        return Database.checkUser(this.Username);
+        //return Database.checkUser(this.Username);
+        return true;
     }
 
     public void sendMessage(Message message) {

@@ -1,10 +1,5 @@
 package User;
-import LiveChat.*;
-import Database.*;
-import com.mongodb.BasicDBObject;
-import com.mongodb.client.MongoCollection;
-
-import java.util.Date;
+import LiveChat.Message.Message;
 
 /**
  * Student class, student is a subclass of user
@@ -22,6 +17,6 @@ public class Student extends User {
     }
 
     public void receiveMessage(Message message){
-        System.out.println(message.MessageBody);
+        System.out.println(message.getMessage());
     }
 }

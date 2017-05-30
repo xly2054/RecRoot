@@ -3,12 +3,12 @@ package User;
 import LiveChat.Message.Message;
 
 /**
- * Adviser class, Adviosr is a subclass of user
+ * Professor user type
  */
-public class Adviser extends User {
+public class Professor extends User {
     public String Department;
 
-    public Adviser(String Name, String SSN, String Username, String Password, String Email, String Department) {
+    public Professor(String Name, String SSN, String Username, String Password, String Email, String Department) {
         super(Name,SSN,Username,Password,Email);
         this.Department = Department;
     }

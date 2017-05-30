@@ -3,15 +3,15 @@ import User.*;
 /**
  * Partially implemented backend
  */
-import com.mongodb.*;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
+//import com.mongodb.*;
+//import com.mongodb.client.MongoCollection;
+//import com.mongodb.client.MongoDatabase;
 import java.util.*;
 
 public class Database {
     //placeholder for connection string
-    static private MongoClient mongoClient = null;
-
+    //static private MongoClient mongoClient = null;
+/*
     public static MongoCollection connect(String DBName, String CollectionName){
         MongoDatabase db = mongoClient.getDatabase(DBName);
         MongoCollection collection = db.getCollection(CollectionName);
@@ -50,5 +50,5 @@ public class Database {
         //search database, determine if user exist
         return false;
     }
-
+*/
 }
