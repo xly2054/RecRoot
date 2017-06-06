@@ -6,8 +6,8 @@ import java.util.Scanner;
 import Discussion.*;
 import LiveChat.LiveChat;
 import LiveChat.LiveChatPage;
-import LiveChat.Message.*;
 import User.*;
+import LiveChat.Message.*;
 
 
 public class MainMenu {
