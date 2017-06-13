@@ -1,4 +1,5 @@
 package Registration;
+import Database.H2DbConnection;
 import User.*;
 import java.util.Scanner;
 
@@ -9,46 +10,107 @@ import java.util.Scanner;
 public class registration {
 
     private User State;
+    private String type;
+    private Double GPA;
+    private String Department;
 
     public registration(Student student){
         this.State = student;
+        this.type = "student";
+        this.GPA = student.GPA;
     }
 
     public registration(Professor professor){
         this.State = professor;
+        this.type = "professor";
+        this.Department = professor.Department;
     }
 
     public registration(Adviser adviser){
         this.State = adviser;
+        this.type = "adviser";
+        this.Department = adviser.Department;
     }
 
     public void addUser(){
         Scanner scanner = new Scanner(System.in);
-        if(State.Username != "") {
+
+        if(this.type.equals("")) {
+            System.out.println("Please enter user type, student, professor, or adviser");
+            String type = scanner.nextLine();
+        }
+
+        if(State.Username.equals("")) {
             System.out.println("Please create a username");
             State.Username = scanner.nextLine();
         }
 
-        if(State.Password != "") {
-            System.out.println("Please create a password");
+        if(State.Password.equals("")) {
+            System.out.println("Please create a password longer than 8 characters");
             State.Password = scanner.nextLine();
         }
 
-        if(State.Name != "") {
+        if(State.Name.equals("")) {
             System.out.println("Please enter your name");
             State.Name = scanner.nextLine();
         }
 
-        if(State.Email != "") {
-            System.out.println("Please enter your age");
+        if(State.Email.equals("")) {
+            System.out.println("Please enter your Email");
             State.Email = scanner.nextLine();
         }
 
+        if(type.equals("student")){
+            if(GPA==null) {
+                System.out.println("Please enter your GPA");
+                this.GPA = Double.parseDouble(scanner.nextLine());
+            }
+            Student u = new Student(State.Name,State.SSN,State.Username,State.Password,State.Email,GPA);
+            this.State = u;
+            registrationMemento memento = saveUserToMemento();
+            if(validateUser(u)){
+                H2DbConnection.addStudents(u);
+                System.out.println("Validation passed, registered successfully");
+            }else{
+                restoreFromMemento(memento);
+                retry();
+            }
+        }else if(type.equals("professor")){
+            if(this.Department.equals("")) {
+                System.out.println("Please enter your department");
+                this.Department = scanner.nextLine();
+            }
+            Professor u = new Professor(State.Name,State.SSN,State.Username,State.Password,State.Email,Department);
+            this.State = u;
+            registrationMemento memento = saveUserToMemento();
+            if(validateUser(u)){
+
+            }else{
+                restoreFromMemento(memento);
+                retry();
+            }
+        }else if(type.equals("adviser")){
+            if(this.Department.equals("")) {
+                System.out.println("Please enter your department");
+                this.Department = scanner.nextLine();
+            }
+            Adviser u = new Adviser(State.Name, State.SSN, State.Username, State.Password, State.Email, Department);
+            this.State = u;
+            registrationMemento memento = saveUserToMemento();
+            if(validateUser(u)){
+
+            }else{
+                restoreFromMemento(memento);
+                retry();
+            }
+        }else{
+            retry();
+        }
         return;
     }
 
-    public boolean validateUser(){
-        if(this.State.Password.length() <=8){
+    public boolean validateUser(User U){
+        if(this.State.Password.length() <8){
             this.State.Password = "";
             saveUserToMemento();
             return false;
@@ -64,5 +126,7 @@ public class registration {
     public void restoreFromMemento(registrationMemento memento) {
         this.State = memento.getSavedState();
     }
+
+    public void retry(){addUser();}
 }
 

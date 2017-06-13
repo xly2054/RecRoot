@@ -43,7 +43,7 @@ public class WebinarPage {
         return false;
     }
 
-    public Webinar getWebinar(String host){
+    public static Webinar getWebinar(String host){
         if(WebinarList==null){
             return null;
         }

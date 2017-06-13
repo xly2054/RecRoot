@@ -3,37 +3,42 @@ import User.*;
 /**
  * Partially implemented backend
  */
-//import com.mongodb.*;
-//import com.mongodb.client.MongoCollection;
-//import com.mongodb.client.MongoDatabase;
+import com.mongodb.*;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.BasicDBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
+
+import org.bson.Document;
+
 import java.util.*;
 
 public class Database {
-    //placeholder for connection string
-    //static private MongoClient mongoClient = null;
-/*
-    public static MongoCollection connect(String DBName, String CollectionName){
+
+    static private MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://xydb:5Eg0tqrvVcbbh8KksteB2gEK4t79BZpUU5tvKNlJdWxVvrceOXjExiYkt1vo57sEyt9RaMlXmRO0wqs8KSyl8A==@xydb.documents.azure.com:10255/?ssl=true&replicaSet=globaldb"));
+
+    public static MongoCollection<Document> connect(String DBName, String CollectionName){
         MongoDatabase db = mongoClient.getDatabase(DBName);
-        MongoCollection collection = db.getCollection(CollectionName);
+        MongoCollection<Document> collection = db.getCollection(CollectionName);
         return collection;
     }
 
     public static void addStudent(Student Student){
-        MongoCollection collection = Database.connect("recroot","user");
-        BasicDBObject document = new BasicDBObject();
-        document.put("name", Student.Name);
-        document.put("ssn", Student.SSN);
-        document.put("username", Student.Username);
-        document.put("password", Student.Password);
-        document.put("email", Student.Email);
-        document.put("gpa",Student.GPA);
-        document.put("usertype", "Student");
-        document.put("createdDate", new Date());
-        collection.insertOne(document);
+        MongoCollection<Document> collection = Database.connect("recrootdb","user");
+        Document doc = new Document("name", Student.Name)
+                .append("ssn", Student.SSN)
+                .append("username", Student.Username)
+                .append("password", Student.Password)
+                .append("email", Student.Email)
+                .append("gpa",Student.GPA)
+                .append("usertype", "Student");
+
+        collection.insertOne(doc);
     }
 
     public static void addAdvisor(Adviser Adviser){
-        MongoCollection collection = Database.connect("recroot","user");
+        MongoCollection collection = Database.connect("recrootdb","user");
         BasicDBObject document = new BasicDBObject();
         document.put("name", Adviser.Name);
         document.put("ssn", Adviser.SSN);
@@ -46,9 +51,16 @@ public class Database {
         collection.insertOne(document);
     }
 
+    public static Student findStudent(String name){
+        MongoCollection collection = Database.connect("recrootdb","user");
+        //Document myDoc = collection.find().first();
+        //System.out.println(myDoc.toJson());
+        return null;
+    }
+
     public static Boolean checkUser(String Username){
         //search database, determine if user exist
         return false;
     }
-*/
+
 }
