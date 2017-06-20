@@ -53,8 +53,26 @@ public class MainMenu {
 
     }
 
+    private static void pressAnyKeyToContinue()
+    {
+        System.out.println("Press any key to continue...");
+        try
+        {
+            System.in.read();
+        }
+        catch(Exception e)
+        {}
+    }
+
     public static void main(String[] args){
 
+        //RecRoot
+        Student s = new Student("","","","","",0);
+        registration r = new registration(s);
+        r.addUser();
+
+        pressAnyKeyToContinue();
+/*
         //Creating new students for testing
         //If student declared here has missing information, it will be prompted for console input
         Student s1 = new Student("TestUser1","123-321-111","TestUser1","12345678","abc@123.com",1.0);
@@ -71,7 +89,7 @@ public class MainMenu {
         r3.addUser();
         registration r4 = new registration(s4);
         r4.addUser();
-
+*/
         //populate in-memory database
         try {
             H2DbConnection.populate();
@@ -79,8 +97,8 @@ public class MainMenu {
             e.printStackTrace();
         }
 
+        pressAnyKeyToContinue();
         //print all students
-        /*
         try {
             new UserDAO(H2DbConnection.dbConnection).getStudents().stream()
                     .forEach(System.out::println);
@@ -89,11 +107,11 @@ public class MainMenu {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        */
 
-        //search for student Jack
+        pressAnyKeyToContinue();
+        //search for student
         try {
-            Student s = new UserDAO(H2DbConnection.dbConnection).getStudent("TestUser1");
+            s = new UserDAO(H2DbConnection.dbConnection).getStudent("John");
             System.out.println("Student found: " + s.getName() + " " + s.getEmail() + " " + s.getGPA());
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,21 +119,12 @@ public class MainMenu {
             e.printStackTrace();
         }
 
+        /*
         try {
             Thread.sleep(100000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-
-        /*
-        Usage for previous assignment
-
-        if(loginPage()) {
-            menu();
-        }
-
-        //Creating new student for testing
-        Student s = new Student("TestUser","123","tu","123","abc@123.com",3.0);
+        }*/
 
         //Calling Singleton static method to retrieve discussion board instance
         DiscussionBoard db = DiscussionBoard.getInstance();
@@ -128,13 +137,18 @@ public class MainMenu {
         //implementation of reply Thread adapted prototype design pattern
         db.replyThread(Topic,ThreadSubject,"Adviser A","Welcome!");
 
+        pressAnyKeyToContinue();
         //verify topics
         db.listThread();
 
+        pressAnyKeyToContinue();
         //verify threads
         Discussion d = db.getDiscussion(Topic);
         Threads t = d.getThread(ThreadSubject);
         t.printThread();
+
+        pressAnyKeyToContinue();
+
 
         //Connecting current Student to a chat session with Professor via factor design pattern
         LiveChatPage lcp = new LiveChatPage();
@@ -142,9 +156,11 @@ public class MainMenu {
         lc.addUser(s);
         lc.connectUser();
 
+        pressAnyKeyToContinue();
         //Validate chat
         lc.PrintChat();
 
+        pressAnyKeyToContinue();
         //Sending Message with Decorator design pattern
         String Message = "Hello World";
         Message m = new SimpleMessage();
@@ -159,6 +175,6 @@ public class MainMenu {
         m = new ColoredMessage(m);
         m.setMessage(Message);
         System.out.println(m.getMessage());
-*/
+
     }
 }

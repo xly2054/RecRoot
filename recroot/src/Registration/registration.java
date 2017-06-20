@@ -61,14 +61,14 @@ public class registration {
         }
 
         if(type.equals("student")){
-            if(GPA==null) {
+            if(GPA==0) {
                 System.out.println("Please enter your GPA");
                 this.GPA = Double.parseDouble(scanner.nextLine());
             }
             Student u = new Student(State.Name,State.SSN,State.Username,State.Password,State.Email,GPA);
             this.State = u;
             registrationMemento memento = saveUserToMemento();
-            if(validateUser(u)){
+            if(validateUser()){
                 H2DbConnection.addStudents(u);
                 System.out.println("Validation passed, registered successfully");
             }else{
@@ -83,7 +83,7 @@ public class registration {
             Professor u = new Professor(State.Name,State.SSN,State.Username,State.Password,State.Email,Department);
             this.State = u;
             registrationMemento memento = saveUserToMemento();
-            if(validateUser(u)){
+            if(validateUser()){
 
             }else{
                 restoreFromMemento(memento);
@@ -97,7 +97,7 @@ public class registration {
             Adviser u = new Adviser(State.Name, State.SSN, State.Username, State.Password, State.Email, Department);
             this.State = u;
             registrationMemento memento = saveUserToMemento();
-            if(validateUser(u)){
+            if(validateUser()){
 
             }else{
                 restoreFromMemento(memento);
@@ -109,7 +109,7 @@ public class registration {
         return;
     }
 
-    public boolean validateUser(User U){
+    private boolean validateUser(){
         if(this.State.Password.length() <8){
             this.State.Password = "";
             saveUserToMemento();
@@ -119,7 +119,7 @@ public class registration {
     }
 
     public registrationMemento saveUserToMemento() {
-        System.out.println("Saving to Memento.");
+        //System.out.println("Saving to Memento.");
         return new registrationMemento(this.State);
     }
 
@@ -127,6 +127,9 @@ public class registration {
         this.State = memento.getSavedState();
     }
 
-    public void retry(){addUser();}
+    public void retry(){
+        System.out.println("Validation failed, please retry");
+        addUser();
+    }
 }
 
